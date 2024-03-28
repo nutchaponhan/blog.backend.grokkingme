@@ -1,8 +1,7 @@
+import { User } from '@prisma/client';
 import { plainToClass } from 'class-transformer';
 
-import { UserEntity } from '@core/entity';
-
-import { User } from '@prisma/client';
+import { UserEntity } from '@/core/entity';
 
 export class UserMapper {
   private constructor() {

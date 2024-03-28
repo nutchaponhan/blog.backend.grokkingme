@@ -1,13 +1,10 @@
-import { Role } from '@prisma/client';
-
 export class UserEntity {
-  id: number;
-  username: string;
-  firstname: string;
-  lastname: string;
-  role: Role;
+  id!: number;
+  email!: string;
+  firstname!: string;
+  lastname!: string;
 
-  createdAt: Date;
+  createdAt?: Date;
   updatedAt?: Date;
   deletedAt?: Date;
 }

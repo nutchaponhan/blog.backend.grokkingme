@@ -5,7 +5,7 @@ export class AppController {
   constructor() {}
 
   @Get('api/health')
-  async getHello(): Promise<any> {
+  async getHello(): Promise<{ message: string }> {
     return {
       message: 'app running',
     };

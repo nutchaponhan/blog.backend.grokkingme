@@ -1,14 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { ClsModule } from 'nestjs-cls';
 import { ClsPluginTransactional } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
+import { ClsModule } from 'nestjs-cls';
 
-import { AppController } from '@src/app.controller';
-import { AppConfigModule, AppConfigService } from '@common/index';
-import { PrismaModule, PrismaService } from '@framework/index';
-
-import { ConcertModule, ReservationModule } from '@application/index';
+import { AppController } from '@/app.controller';
+import { AppConfigModule, AppConfigService } from '@/common';
+import { PrismaModule, PrismaService } from '@/framework';
 
 @Module({
   imports: [
@@ -26,8 +24,6 @@ import { ConcertModule, ReservationModule } from '@application/index';
       middleware: { mount: true },
     }),
     AppConfigModule,
-    ConcertModule,
-    ReservationModule,
   ],
   providers: [AppConfigService],
   controllers: [AppController],

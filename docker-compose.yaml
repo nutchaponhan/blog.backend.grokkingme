@@ -1,23 +1,5 @@
 version: "3.8"
 services:
-  server:
-    container_name: server
-    build:
-      context: ./server
-      args:
-        NODE_ENV: development
-    command: "./entrypoint.sh"
-    ports:
-      - "${PORT:-3010}:${PORT:-3010}"
-    env_file:
-      - ./server/.env
-    environment:
-      - NODE_ENV=${NODE_ENV:-development}
-      - PORT=${PORT:-3010}
-      - DATABASE_URL=${DATABASE_URL:-postgresql://root:password@db:5432/concerts-app?schema=public}
-    volumes:
-      - ./server/src:/app/src
-      - ./server/prisma:/app/prisma
   db:
     container_name: db
     image: postgres

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { TransactionHost } from '@nestjs-cls/transactional';
 import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-prisma';
 
-import { UserEntity } from '@src/core/entity';
-import { IUserRepository } from '@src/core/repository';
+import { UserEntity } from '@/core/entity';
+import { IUserRepository } from '@/core/repository';
 
 import { UserMapper } from '../mapper';
 
@@ -11,7 +11,7 @@ import { UserMapper } from '../mapper';
 export class UserRepository implements IUserRepository {
   constructor(private txHost: TransactionHost<TransactionalAdapterPrisma>) {}
 
-  async findById(id: number): Promise<UserEntity> {
+  async findById(id: number): Promise<UserEntity | null> {
     return this.txHost.tx.user.findFirst({ where: { id } });
   }
 

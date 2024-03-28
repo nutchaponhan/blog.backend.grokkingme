@@ -1,0 +1,3 @@
+### Example Check Health
+GET   http://localhost:3100/api/v1/health
+Content-Type: application/json

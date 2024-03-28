@@ -4,13 +4,13 @@ import { BaseException, ExceptionDetail } from './base.exception';
 
 export class AppException extends BaseException {
   constructor(
-    { message }: ExceptionDetail,
+    exception: ExceptionDetail,
     status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
   ) {
-    super({ message }, status);
+    super(exception, status);
   }
 
-  static notFound(): AppException {
-    return new AppException({ message: 'not found' }, HttpStatus.NOT_FOUND);
+  static cannotCreateUser(message): AppException {
+    return new AppException({ message }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

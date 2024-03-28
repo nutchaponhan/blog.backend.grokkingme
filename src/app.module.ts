@@ -5,6 +5,7 @@ import { TransactionalAdapterPrisma } from '@nestjs-cls/transactional-adapter-pr
 import { ClsModule } from 'nestjs-cls';
 
 import { AppController } from '@/app.controller';
+import { UserModule } from '@/application';
 import { AppConfigModule, AppConfigService } from '@/common';
 import { PrismaModule, PrismaService } from '@/framework';
 
@@ -24,6 +25,7 @@ import { PrismaModule, PrismaService } from '@/framework';
       middleware: { mount: true },
     }),
     AppConfigModule,
+    UserModule,
   ],
   providers: [AppConfigService],
   controllers: [AppController],

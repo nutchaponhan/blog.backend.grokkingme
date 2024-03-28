@@ -1,10 +1,10 @@
 import { Controller, Get } from '@nestjs/common';
 
-@Controller()
+@Controller({ version: '1' })
 export class AppController {
   constructor() {}
 
-  @Get('api/health')
+  @Get('health')
   async getHello(): Promise<{ message: string }> {
     return {
       message: 'app running',

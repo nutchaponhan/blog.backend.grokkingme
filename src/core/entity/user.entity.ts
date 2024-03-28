@@ -4,17 +4,18 @@ import { RoleEntity } from './role.entity';
 
 export class UserEntity {
   id!: number;
+
   email!: string;
   password?: string;
 
-  role: RoleEntity;
-  roleId: number;
+  role?: RoleEntity;
+  roleId?: number;
 
-  provider: ProviderEntity;
-  providerId: number;
+  provider?: ProviderEntity;
+  providerId?: number;
 
-  profile: ProfileEntity;
-  profileId: number;
+  profile?: ProfileEntity;
+  profileId?: number;
 
   createdAt?: Date;
   updatedAt?: Date;

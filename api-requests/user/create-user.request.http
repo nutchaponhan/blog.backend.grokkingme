@@ -1,8 +1,12 @@
 ### Example to create user 
-POST   http://localhost:3000/users/signup
+POST   http://localhost:3100/api/v1/users/signup
 Content-Type: application/json
 
 {
     "email": "test_user@gmail.com",
-    "password" "1234567890"
+    "password": "1234567890",
+    "firstname": "bom",
+    "lastname": "bay",
+    "channel": "Credentail",
+    "role": "Admin"
 }

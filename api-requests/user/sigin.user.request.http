@@ -3,6 +3,6 @@ POST   http://localhost:3100/api/v1/users/signin
 Content-Type: application/json
 
 {
-    "email": "test_user3@gmail.com",
+    "email": "test_user1@gmail.com",
     "password": "1234567890"
 }

@@ -1,0 +1,5 @@
+### Example to get user 
+GET http://localhost:3100/api/v1/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1LCJlbWFpbCI6InRlc3RfdXNlcjFAZ21haWwuY29tIiwiaWF0IjoxNzExNjM2ODA2LCJleHAiOjE3MTIyNDE2MDZ9.xcDpWFXOR-sqxK9GChaQ_t3uFQff9KvQZrNGb3zsH3w
+

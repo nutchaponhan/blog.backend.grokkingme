@@ -5,6 +5,7 @@ import { UserEntity } from '@/core';
 import { CreateUserDto, SignInUserDto } from '@/core/dto';
 import { IUserRepository } from '@/core/repository';
 import { AuthService } from '@/service';
+import { ArgonHasher } from '@/util';
 
 @Injectable()
 export class UserUseCase {
@@ -20,12 +21,27 @@ export class UserUseCase {
     refreshToken: string;
   }> {
     try {
-      const newUser = await this.userRepo.create(data);
+      const hasher = new ArgonHasher().addPassword(data.password).build();
+      const passwordHashed = await hasher.hash();
+
+      const newUser = await this.userRepo.create({
+        ...data,
+        password: passwordHashed,
+      });
 
       const payload = { sub: newUser.id, email: newUser.email };
 
       const { accessToken, refreshToken } =
         await this.authService.createTokens(payload);
+
+      await this.userRepo.getTx().user.update({
+        where: {
+          id: newUser.id,
+        },
+        data: {
+          refreshToken,
+        },
+      });
 
       return {
         id: newUser.id,
@@ -57,7 +73,12 @@ export class UserUseCase {
         throw AppException.throwErrorMessage('user not found');
       }
 
-      if (data.password !== user.password) {
+      const hasher = new ArgonHasher()
+        .addPassword(data.password)
+        .addHashed(user.password)
+        .build();
+
+      if (!(await hasher.verify())) {
         throw AppException.throwErrorMessage('Please check email or password');
       }
 
@@ -65,6 +86,15 @@ export class UserUseCase {
 
       const { accessToken, refreshToken } =
         await this.authService.createTokens(payload);
+
+      await this.userRepo.getTx().user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          refreshToken,
+        },
+      });
 
       return {
         id: user.id,
@@ -77,7 +107,7 @@ export class UserUseCase {
     }
   }
 
-  async userRefreshToken(userId: number, refreshToken: string) {
+  async signOut(userId: number): Promise<void> {
     const user = await this.userRepo.findById(userId, {
       id: true,
       email: true,
@@ -85,18 +115,42 @@ export class UserUseCase {
       profile: true,
     });
 
-    // TODO: check & compare refresh token
+    await this.userRepo.getTx().user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        refreshToken: null,
+      },
+    });
+  }
+
+  async userRefreshToken(
+    userId: number,
+    refreshToken: string,
+  ): Promise<{ accessToken: string }> {
+    const user = await this.userRepo.findById(userId, {
+      id: true,
+      email: true,
+      role: true,
+      profile: true,
+      refreshToken: true,
+    });
+
+    if (!user || !user.refreshToken) {
+      throw AppException.throwErrorMessage('Please signin first');
+    }
+
+    if (refreshToken !== user.refreshToken) {
+      throw AppException.throwErrorMessage('No authorization');
+    }
 
     const payload = { sub: user.id, email: user.email };
 
-    const { accessToken, refreshToken: newRefreshToken } =
-      await this.authService.createTokens(payload);
+    const { accessToken } = await this.authService.createTokens(payload);
 
     return {
-      id: user.id,
-      email: user.email,
       accessToken,
-      refreshToken: newRefreshToken,
     };
   }
 

@@ -13,20 +13,30 @@ export class UserController {
 
   @Transactional()
   @Post('/signup')
-  async createUser(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<{
+    id: number;
+    email: string;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     return await this.userUserCase.createNewUser(createUserDto);
   }
 
   @Transactional()
   @Post('/signin')
-  async signInUser(@Body() signInDto: SignInUserDto): Promise<UserEntity> {
+  async signInUser(@Body() signInDto: SignInUserDto): Promise<{
+    id: number;
+    email: string;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     return await this.userUserCase.signIn(signInDto);
   }
 
   @Transactional()
   @UseGuards(RefreshTokenGuard)
   @Get('/refresh')
-  async refreshToken(@Req() req: Request): Promise<UserEntity> {
+  async refreshToken(@Req() req: Request): Promise<{ accessToken: string }> {
     const userId = req.user['sub'];
     const refreshToken = req.user['refreshToken'];
     return await this.userUserCase.userRefreshToken(userId, refreshToken);
@@ -37,5 +47,13 @@ export class UserController {
   async getUser(@Req() req: Request): Promise<UserEntity> {
     const userId = parseInt(req.user['sub']);
     return await this.userUserCase.getUser(userId);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Post('/signout')
+  async signOutUser(@Req() req: Request): Promise<void> {
+    const userId = parseInt(req.user['sub']);
+    await this.userUserCase.signOut(userId);
+    return;
   }
 }

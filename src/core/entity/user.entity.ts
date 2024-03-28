@@ -8,6 +8,8 @@ export class UserEntity {
   email!: string;
   password?: string;
 
+  refreshToken?: string;
+
   role?: RoleEntity;
   roleId?: number;
 

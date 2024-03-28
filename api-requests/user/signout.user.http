@@ -1,0 +1,5 @@
+### Example to create user 
+POST   http://localhost:3100/api/v1/users/signout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1LCJlbWFpbCI6InRlc3RfdXNlcjFAZ21haWwuY29tIiwiaWF0IjoxNzExNjM2ODA2LCJleHAiOjE3MTE2Mzc3MDZ9.yJ3P3mrVCEDuGUhxqBw87-kauWdPvodidplZDYE9voo
+

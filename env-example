@@ -1,0 +1,7 @@
+# this is environment setup for run server
+
+# please create new .env file with following env example
+
+NODE_ENV=development
+PORT=3010
+DATABASE_URL="postgresql://root:password@db:5432/concerts-app?schema=public"

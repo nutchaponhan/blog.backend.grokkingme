@@ -34,6 +34,15 @@ export class UserController {
   }
 
   @Transactional()
+  @UseGuards(AccessTokenGuard)
+  @Post('/signout')
+  async signOutUser(@Req() req: Request): Promise<void> {
+    const userId = parseInt(req.user['sub']);
+    await this.userUserCase.signOut(userId);
+    return;
+  }
+
+  @Transactional()
   @UseGuards(RefreshTokenGuard)
   @Get('/refresh')
   async refreshToken(@Req() req: Request): Promise<{ accessToken: string }> {
@@ -47,13 +56,5 @@ export class UserController {
   async getUser(@Req() req: Request): Promise<UserEntity> {
     const userId = parseInt(req.user['sub']);
     return await this.userUserCase.getUser(userId);
-  }
-
-  @UseGuards(AccessTokenGuard)
-  @Post('/signout')
-  async signOutUser(@Req() req: Request): Promise<void> {
-    const userId = parseInt(req.user['sub']);
-    await this.userUserCase.signOut(userId);
-    return;
   }
 }

@@ -14,6 +14,18 @@ export class UserUseCase {
     private authService: AuthService,
   ) {}
 
+  async updateUserToken(userId, newToken): Promise<void> {
+    await this.userRepo.getTx().user.update({
+      where: {
+        id: userId,
+      },
+      data: {
+        refreshToken: newToken,
+      },
+    });
+    return;
+  }
+
   async createNewUser(data: CreateUserDto): Promise<{
     id: number;
     email: string;
@@ -34,14 +46,7 @@ export class UserUseCase {
       const { accessToken, refreshToken } =
         await this.authService.createTokens(payload);
 
-      await this.userRepo.getTx().user.update({
-        where: {
-          id: newUser.id,
-        },
-        data: {
-          refreshToken,
-        },
-      });
+      await this.updateUserToken(newUser.id, refreshToken);
 
       return {
         id: newUser.id,
@@ -87,14 +92,7 @@ export class UserUseCase {
       const { accessToken, refreshToken } =
         await this.authService.createTokens(payload);
 
-      await this.userRepo.getTx().user.update({
-        where: {
-          id: user.id,
-        },
-        data: {
-          refreshToken,
-        },
-      });
+      await this.updateUserToken(user.id, refreshToken);
 
       return {
         id: user.id,
@@ -115,14 +113,7 @@ export class UserUseCase {
       profile: true,
     });
 
-    await this.userRepo.getTx().user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        refreshToken: null,
-      },
-    });
+    await this.updateUserToken(user.id, null);
   }
 
   async userRefreshToken(

@@ -1,5 +1,5 @@
 ### Example to refresh access token
 GET http://localhost:3100/api/v1/users/refresh
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1LCJlbWFpbCI6InRlc3RfdXNlcjFAZ21haWwuY29tIiwiaWF0IjoxNzExNjM3MTM3LCJleHAiOjE3MTIyNDE5Mzd9.m99qTPXiB2PWRw68QFRlmh1Ig5W32qYWTQiApt1jF6c
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjI1LCJlbWFpbCI6InRlc3RfdXNlcjFAZ21haWwuY29tIiwiaWF0IjoxNzExNjM4Mjk2LCJleHAiOjE3MTIyNDMwOTZ9.Lo7xuvTHGUaahd6XLujbSVP-sedYFh1FnAZZUcFz0RQ
 

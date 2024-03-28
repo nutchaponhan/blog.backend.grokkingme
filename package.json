@@ -1,6 +1,9 @@
 {
   "name": "blog.backend.grokkingme",
   "version": "1.0.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "description": "backend server for blog.grokkingme.com",
   "author": "Nutchapon Hanoutpornlert",
   "private": true,

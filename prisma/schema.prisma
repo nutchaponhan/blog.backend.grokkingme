@@ -11,8 +11,66 @@ datasource db {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
+  id       Int     @id @default(autoincrement())
+  email    String  @unique
+  password String?
+
+  role   Role @relation(fields: [roleId], references: [id])
+  roleId Int
+
+  provider   Provider @relation(fields: [providerId], references: [id])
+  providerId Int
+
+  profile   Profile @relation(fields: [profileId], references: [id])
+  profileId Int     @unique
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Profile {
+  id        Int     @id @default(autoincrement())
   firstname String
   lastname  String
+  profile   String?
+
+  User User?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+}
+
+model Provider {
+  id   Int          @id @default(autoincrement())
+  type ProviderType
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  User User[]
+}
+
+model Role {
+  id    Int       @id @default(autoincrement())
+  title RoleTitle
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  User User[]
+}
+
+enum RoleTitle {
+  Admin
+  User
+}
+
+enum ProviderType {
+  Credentail
+  Google
+  Github
 }

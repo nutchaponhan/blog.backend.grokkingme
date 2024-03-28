@@ -16,4 +16,13 @@ export class UserUseCase {
       throw AppException.cannotCreateUser('fail to create new user');
     }
   }
+
+  async getUser(userId: number): Promise<UserEntity> {
+    return await this.userRepo.findById(userId, {
+      id: true,
+      email: true,
+      role: true,
+      profile: true,
+    });
+  }
 }

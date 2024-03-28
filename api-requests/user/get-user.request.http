@@ -1,0 +1,4 @@
+### Example to get user 
+GET http://localhost:3100/api/v1/users?id=1
+Content-Type: application/json
+

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { Transactional } from '@nestjs-cls/transactional';
 
 import { UserEntity } from '@/core';
@@ -13,5 +13,11 @@ export class UserController {
   @Post('/signup')
   async createUser(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
     return await this.userUserCase.createNewUser(createUserDto);
+  }
+
+  @Get()
+  async getUser(@Query() query: { id: string }): Promise<UserEntity> {
+    const userId = parseInt(query.id);
+    return await this.userUserCase.getUser(userId);
   }
 }

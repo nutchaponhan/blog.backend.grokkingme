@@ -23,10 +23,6 @@ async function bootstrap() {
     new ValidationPipe({
       enableDebugMessages: true,
       transform: true,
-      exceptionFactory: (errors) => {
-        console.log({ errors });
-        return errors;
-      },
     }),
   );
 

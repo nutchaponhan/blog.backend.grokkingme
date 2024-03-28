@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { Transactional } from '@nestjs-cls/transactional';
+import { Request } from 'express';
 
 import { UserEntity } from '@/core';
-import { CreateUserDto } from '@/core/dto';
+import { CreateUserDto, SignInUserDto } from '@/core/dto';
+import { AccessTokenGuard, RefreshTokenGuard } from '@/framework';
 import { UserUseCase } from '@/use-case/user';
 
 @Controller({ path: 'users', version: '1' })
@@ -15,9 +17,25 @@ export class UserController {
     return await this.userUserCase.createNewUser(createUserDto);
   }
 
-  @Get()
-  async getUser(@Query() query: { id: string }): Promise<UserEntity> {
-    const userId = parseInt(query.id);
+  @Transactional()
+  @Post('/signin')
+  async signInUser(@Body() signInDto: SignInUserDto): Promise<UserEntity> {
+    return await this.userUserCase.signIn(signInDto);
+  }
+
+  @Transactional()
+  @UseGuards(RefreshTokenGuard)
+  @Get('/refresh')
+  async refreshToken(@Req() req: Request): Promise<UserEntity> {
+    const userId = req.user['sub'];
+    const refreshToken = req.user['refreshToken'];
+    return await this.userUserCase.userRefreshToken(userId, refreshToken);
+  }
+
+  @UseGuards(AccessTokenGuard)
+  @Get('/me')
+  async getUser(@Req() req: Request): Promise<UserEntity> {
+    const userId = parseInt(req.user['sub']);
     return await this.userUserCase.getUser(userId);
   }
 }

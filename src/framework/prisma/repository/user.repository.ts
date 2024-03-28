@@ -34,6 +34,20 @@ export class PrismaUserRepository implements IUserRepository {
     return user ? UserMapper.toEntity(user) : null;
   }
 
+  async findByEmail(
+    email: string,
+    selectors: Prisma.UserSelect,
+  ): Promise<UserEntity> {
+    const findArgs: Prisma.UserFindFirstArgs = {
+      where: {
+        email,
+      },
+      select: selectors,
+    };
+    const user = await this.getTx().user.findFirst(findArgs);
+    return user ? UserMapper.toEntity(user) : null;
+  }
+
   async create(data: CreateUserDto): Promise<UserEntity> {
     const newUser = await this.getTx().user.create({
       data: {

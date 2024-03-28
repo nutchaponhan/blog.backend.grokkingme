@@ -10,7 +10,7 @@ export class AppException extends BaseException {
     super(exception, status);
   }
 
-  static cannotCreateUser(message): AppException {
+  static throwErrorMessage(message): AppException {
     return new AppException({ message }, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

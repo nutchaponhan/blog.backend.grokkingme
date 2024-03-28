@@ -1,4 +1,4 @@
-version: "3.8"
+version: '3.8'
 services:
   db:
     container_name: db
@@ -10,7 +10,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=password
       - POSTGRES_USER=root
-      - POSTGRES_DB=concerts-app
+      - POSTGRES_DB=blog-grokkingme
 
 volumes:
   db_data:

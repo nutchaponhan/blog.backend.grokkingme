@@ -70,12 +70,7 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "@src/(.*)$": "<rootDir>/$1",
-      "@core/(.*)": "<rootDir>/core/$1",
-      "@common/(.*)": "<rootDir>/common/$1",
-      "@application/(.*)": "<rootDir>/application/$1",
-      "@framework/(.*)": "<rootDir>/framework/$1",
-      "@use-case/(.*)": "<rootDir>/use-case/$1"
+      "@/(.*)$": "<rootDir>/$1"
     },
     "moduleFileExtensions": [
       "js",

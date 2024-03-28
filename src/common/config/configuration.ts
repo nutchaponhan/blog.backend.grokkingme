@@ -9,4 +9,9 @@ const dbConfig = registerAs('database', () => ({
   url: process.env.DATABASE_URL,
 }));
 
-export { appConfig, dbConfig };
+const jwtSecretConfig = registerAs('jwtSecret', () => ({
+  accessSecret: process.env.JWT_ACCESS_SECRET,
+  refreshSecret: process.env.JWT_REFRESH_SECRET,
+}));
+
+export { appConfig, dbConfig, jwtSecretConfig };

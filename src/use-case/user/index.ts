@@ -4,14 +4,26 @@ import { AppException } from '@/common';
 import { UserEntity } from '@/core';
 import { CreateUserDto } from '@/core/dto';
 import { IUserRepository } from '@/core/repository';
+import { AuthService } from '@/service';
 
 @Injectable()
 export class UserUseCase {
-  constructor(private userRepo: IUserRepository) {}
+  constructor(
+    private userRepo: IUserRepository,
+    private authService: AuthService,
+  ) {}
 
   async createNewUser(data: CreateUserDto): Promise<UserEntity> {
     try {
-      return await this.userRepo.create(data);
+      const newUser = await this.userRepo.create(data);
+
+      const payload = { sub: newUser.id, email: newUser.email };
+
+      const accessToken = await this.authService.createTokens(payload);
+
+      console.log({ accessToken });
+
+      return newUser;
     } catch (error) {
       throw AppException.cannotCreateUser('fail to create new user');
     }

@@ -16,4 +16,13 @@ export class AppConfigService {
   getDatabaseUrl(): string {
     return this.configService.get<string>('database.url') || '';
   }
+
+  getJwtSecrets(): { accessSecret: string; refreshSecret: string } {
+    return {
+      accessSecret:
+        this.configService.get<string>('jwtSecret.accessSecret') || '',
+      refreshSecret:
+        this.configService.get<string>('jwtSecret.refreshSecret') || '',
+    };
+  }
 }

@@ -8,15 +8,17 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "useUnknownInCatchVariables": false,
-    "target": "ES2021",
+    "allowSyntheticDefaultImports": true,
+    "target": "ESNext",
     "sourceMap": true,
     "allowJs": false,
     "outDir": "dist",
     "baseUrl": ".",
+    "incremental": true,
     "paths": {
       "@/*": ["./src/*"]
     }
   },
   "include": ["**/*.ts"],
-  "exclude": ["node_modules", "**/*.spec.ts"]
+  "exclude": ["node_modules", "**/*.spec.ts", "dist"]
 }
